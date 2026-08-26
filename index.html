@@ -3,180 +3,197 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบบันทึกเวลาเข้างานและประชุมวิชาการ</title>
+    <title>ระบบบันทึกเวลาและลงทะเบียนประชุมวิชาการ</title>
     <!-- นำเข้า Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- นำเข้า Google Font 'Sarabun' (ฟอนต์สารบรรณแบบมีหัว เป็นทางการ) -->
+    <!-- ฟอนต์สารบรรณ (Sarabun) แบบมีหัว เป็นทางการ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Sarabun', sans-serif; }
-        .card-hover { transition: all 0.25s ease; }
-        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.25); }
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-4px); }
     </style>
 </head>
-<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 text-slate-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gradient-to-br from-sky-100 via-blue-50 to-indigo-100 text-slate-800 min-h-screen flex items-center justify-center p-4">
 
-    <!-- 1. เมนูหลัก (Main Dashboard) -->
-    <div id="mainMenu" class="w-full max-w-xl mx-auto py-6">
+    <!-- 1. เมนูหลัก (Main Menu) โทนฟ้าพาสเทลสดใส -->
+    <div id="mainMenu" class="w-full max-w-xl mx-auto py-8">
         <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-blue-200">
+            <div class="inline-block px-4 py-1.5 bg-sky-200/60 text-sky-800 rounded-full text-sm font-semibold mb-3 border border-sky-300/60 shadow-sm">
+                Academic Conference Attendance System
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-800 tracking-tight">
                 ระบบบันทึกเวลาเข้างาน
             </h1>
-            <p class="text-slate-400 mt-1 text-base">Face Recognition & GPS Attendance Management</p>
+            <p class="text-slate-600 mt-2 text-base">Face Recognition & GPS Attendance Management</p>
         </header>
 
         <div class="space-y-4">
-            <!-- เมนูที่ 1: ลงทะเบียน -->
-            <div onclick="showSection('registerSection')" class="card-hover cursor-pointer flex items-center bg-slate-900/80 border border-slate-800 hover:border-sky-500/50 p-5 rounded-2xl shadow-lg">
-                <div class="flex-shrink-0 bg-blue-600 p-3.5 rounded-xl shadow-md mr-5 text-white">
+            <!-- เมนูที่ 1: ลงทะเบียนผู้เข้าร่วม (ม่วงพาสเทล - บันทึกข้อมูลอย่างเดียว) -->
+            <div onclick="showSection('registerSection')" class="card-hover cursor-pointer flex items-center bg-white/90 backdrop-blur border border-purple-200 hover:border-purple-400 p-5 rounded-3xl shadow-sm hover:shadow-md">
+                <div class="flex-shrink-0 bg-gradient-to-tr from-purple-600 to-indigo-500 p-4 rounded-2xl shadow-md mr-5 text-white">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                 </div>
                 <div class="flex-grow">
-                    <h2 class="text-xl font-bold text-sky-200">ลงทะเบียนผู้เข้าร่วม</h2>
-                    <p class="text-sm text-slate-400">บันทึกข้อมูลและภาพถ่ายใบหน้าใหม่</p>
+                    <h2 class="text-xl font-bold text-purple-900">ลงทะเบียนผู้เข้าร่วม</h2>
+                    <p class="text-sm text-slate-500">บันทึกข้อมูลผู้เข้าร่วมงานใหม่ลงในฐานข้อมูล</p>
                 </div>
-                <div class="text-slate-500">
+                <div class="text-purple-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </div>
             </div>
 
-            <!-- เมนูที่ 2: สแกนเข้างาน -->
-            <div onclick="showSection('scanSection'); startCamera();" class="card-hover cursor-pointer flex items-center bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 p-5 rounded-2xl shadow-lg">
-                <div class="flex-shrink-0 bg-emerald-600 p-3.5 rounded-xl shadow-md mr-5 text-white">
+            <!-- เมนูที่ 2: สแกนเข้างาน (เขียวพาสเทลสดชื่น) -->
+            <div onclick="showSection('scanSection'); startCamera();" class="card-hover cursor-pointer flex items-center bg-white/90 backdrop-blur border border-emerald-200 hover:border-emerald-400 p-5 rounded-3xl shadow-sm hover:shadow-md">
+                <div class="flex-shrink-0 bg-gradient-to-tr from-emerald-500 to-teal-400 p-4 rounded-2xl shadow-md mr-5 text-white">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </div>
                 <div class="flex-grow">
-                    <h2 class="text-xl font-bold text-emerald-300">สแกนเข้า-ออกงาน</h2>
-                    <p class="text-sm text-slate-400">ยืนยันตัวตนด้วยใบหน้า พร้อมบันทึกพิกัด GPS</p>
+                    <h2 class="text-xl font-bold text-emerald-900">สแกนเข้างาน</h2>
+                    <p class="text-sm text-slate-500">ยืนยันตัวตนด้วยใบหน้า พร้อมบันทึกพิกัด GPS</p>
                 </div>
-                <div class="text-slate-500">
+                <div class="text-emerald-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </div>
             </div>
 
-            <!-- เมนูที่ 3: ตั้งค่าระบบและรายงาน -->
-            <div onclick="showSection('adminSection')" class="card-hover cursor-pointer flex items-center bg-slate-900/80 border border-slate-800 hover:border-slate-500/50 p-5 rounded-2xl shadow-lg">
-                <div class="flex-shrink-0 bg-slate-700 p-3.5 rounded-xl shadow-md mr-5 text-white">
+            <!-- เมนูที่ 3: ตั้งค่าระบบ (ฟ้าพาสเทล - จัดการ GPS และ API Admin) -->
+            <div onclick="showSection('adminSection')" class="card-hover cursor-pointer flex items-center bg-white/90 backdrop-blur border border-sky-200 hover:border-sky-400 p-5 rounded-3xl shadow-sm hover:shadow-md">
+                <div class="flex-shrink-0 bg-gradient-to-tr from-sky-600 to-blue-500 p-4 rounded-2xl shadow-md mr-5 text-white">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </div>
                 <div class="flex-grow">
-                    <h2 class="text-xl font-bold text-slate-200">ตั้งค่าระบบ / รายงานผล</h2>
-                    <p class="text-sm text-slate-400">ตรวจสอบสถิติผู้มาสาย และผู้ออกก่อนเวลา</p>
+                    <h2 class="text-xl font-bold text-sky-900">ตั้งค่าระบบ</h2>
+                    <p class="text-sm text-slate-500">จัดการ GPS และ API (Admin)</p>
                 </div>
-                <div class="text-slate-500">
+                <div class="text-sky-400">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 2. หน้าย่อย: สแกนเข้า-ออกงาน -->
-    <div id="scanSection" class="hidden w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
-        <button onclick="showSection('mainMenu'); stopCamera();" class="text-sm text-sky-400 mb-4 flex items-center gap-1 hover:underline">
+    <!-- 2. หน้าย่อย: ลงทะเบียนผู้เข้าร่วม (บันทึกข้อมูลเพียงอย่างเดียว) -->
+    <div id="registerSection" class="hidden w-full max-w-lg bg-white/95 backdrop-blur border border-purple-200 rounded-3xl p-7 shadow-xl">
+        <button onclick="showSection('mainMenu')" class="text-sm font-semibold text-purple-700 mb-4 flex items-center gap-1 hover:underline">
             ← กลับหน้าหลัก
         </button>
-        <h2 class="text-2xl font-bold text-sky-200 text-center mb-1">สแกนลงเวลา</h2>
-        <p class="text-xs text-center text-slate-400 mb-4">บันทึกเวลาพร้อมตรวจสอบใบหน้าและพิกัด</p>
+        <h2 class="text-2xl font-bold text-slate-800 text-center mb-1">ลงทะเบียนผู้เข้าร่วม</h2>
+        <p class="text-xs text-center text-slate-500 mb-6">กรอกข้อมูลผู้เข้าร่วมงานเพื่อบันทึกประวัติล่วงหน้า</p>
 
-        <form id="attendanceForm" class="space-y-4">
+        <form id="regOnlyForm" class="space-y-4">
             <div>
-                <label class="block text-sm text-slate-300 mb-1">รหัสผู้เข้าร่วม / อีเมล</label>
-                <input type="text" id="userId" required placeholder="เช่น EMP-001 หรือ email" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-sky-500">
+                <label class="block text-sm font-medium text-slate-700 mb-1">รหัสประจำตัว / เลขบัตรประชาชน</label>
+                <input type="text" id="regId" required placeholder="เช่น 1100400XXXXXX" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-800 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
             </div>
-
             <div>
-                <label class="block text-sm text-slate-300 mb-1">ชื่อ - นามสกุล</label>
-                <input type="text" id="userName" required placeholder="นายสมชาย ใจดี" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-sky-500">
+                <label class="block text-sm font-medium text-slate-700 mb-1">ชื่อ - นามสกุล</label>
+                <input type="text" id="regName" required placeholder="เช่น อ.สมชาย ใจดี" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-800 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
             </div>
-
             <div>
-                <label class="block text-sm text-slate-300 mb-1">ประเภทการลงเวลา</label>
-                <select id="recordType" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-sky-500">
-                    <option value="Check-in">Check-in (เข้าประชุมเช้า)</option>
-                    <option value="Check-out">Check-out (ออกจากห้องประชุม)</option>
+                <label class="block text-sm font-medium text-slate-700 mb-1">สังกัด / หน่วยงาน</label>
+                <input type="text" id="regOrg" required placeholder="เช่น วิทยาลัยเทคนิค..." class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-800 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">อีเมลติดต่อ</label>
+                <input type="email" id="regEmail" required placeholder="example@mail.com" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-800 outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-200">
+            </div>
+            <button type="submit" class="w-full py-3 bg-purple-600 hover:bg-purple-700 font-bold rounded-xl text-white shadow-md transition duration-200">
+                บันทึกข้อมูลเข้าระบบ
+            </button>
+        </form>
+        <div id="regAlert" class="hidden mt-4 p-3 rounded-xl text-center text-sm font-semibold"></div>
+    </div>
+
+    <!-- 3. หน้าย่อย: สแกนเข้างาน (พร้อมกล้อง + GPS) -->
+    <div id="scanSection" class="hidden w-full max-w-md bg-white/95 backdrop-blur border border-emerald-200 rounded-3xl p-6 shadow-xl">
+        <button onclick="showSection('mainMenu'); stopCamera();" class="text-sm font-semibold text-emerald-700 mb-3 flex items-center gap-1 hover:underline">
+            ← กลับหน้าหลัก
+        </button>
+        <h2 class="text-2xl font-bold text-slate-800 text-center mb-1">สแกนลงเวลา</h2>
+        <p class="text-xs text-center text-slate-500 mb-4">ยืนยันตัวตนด้วยใบหน้าและพิกัดสถานที่</p>
+
+        <form id="attendanceForm" class="space-y-3.5">
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">รหัสผู้เข้าร่วม / อีเมล</label>
+                <input type="text" id="userId" required placeholder="เช่น รหัสประจำตัว หรือ อีเมล" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-800 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">ชื่อ - นามสกุล</label>
+                <input type="text" id="userName" required placeholder="นายสมชาย ใจดี" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-800 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200">
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">ประเภทการลงเวลา</label>
+                <select id="recordType" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-2.5 text-slate-800 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200">
+                    <option value="Check-in">Check-in (เช็กอินช่วงเช้า)</option>
+                    <option value="Check-out">Check-out (เช็กเอาต์หลัง 15:00 น.)</option>
                 </select>
             </div>
-
             <div>
-                <label class="block text-sm text-slate-300 mb-1">กล้องบันทึกใบหน้า</label>
-                <div class="relative rounded-xl overflow-hidden bg-black aspect-video flex items-center justify-center">
+                <label class="block text-sm font-medium text-slate-700 mb-1">กล้องยืนยันใบหน้า</label>
+                <div class="relative rounded-2xl overflow-hidden bg-slate-950 aspect-video flex items-center justify-center border border-slate-300">
                     <video id="video" class="w-full h-full object-cover" autoplay playsinline></video>
                     <canvas id="canvas" class="hidden"></canvas>
                 </div>
                 <div class="flex items-center justify-between mt-2">
-                    <button type="button" onclick="takeSnapshot()" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-xs rounded-lg text-white font-medium">กดถ่ายภาพ</button>
-                    <span id="photoStatus" class="text-xs text-amber-400">ยังไม่ได้ถ่ายภาพ</span>
+                    <button type="button" onclick="takeSnapshot()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-xs font-semibold rounded-lg text-white shadow-sm">กดถ่ายภาพ</button>
+                    <span id="photoStatus" class="text-xs font-medium text-amber-600">ยังไม่ได้ถ่ายภาพ</span>
                 </div>
             </div>
-
-            <button type="submit" id="submitBtn" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-xl text-white shadow-lg transition">
+            <button type="submit" id="submitBtn" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 font-bold rounded-xl text-white shadow-md transition duration-200">
                 ยืนยันการบันทึกเวลา
             </button>
         </form>
-        <div id="statusAlert" class="hidden mt-4 p-3 rounded-xl text-center text-sm font-semibold"></div>
+        <div id="statusAlert" class="hidden mt-3 p-3 rounded-xl text-center text-sm font-semibold"></div>
     </div>
 
-    <!-- 3. หน้าย่อย: ลงทะเบียนพนักงานใหม่ -->
-    <div id="registerSection" class="hidden w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
-        <button onclick="showSection('mainMenu')" class="text-sm text-sky-400 mb-4 flex items-center gap-1 hover:underline">
+    <!-- 4. หน้าย่อย: ตั้งค่าระบบ (จัดการ GPS และ API Admin) -->
+    <div id="adminSection" class="hidden w-full max-w-lg bg-white/95 backdrop-blur border border-sky-200 rounded-3xl p-7 shadow-xl">
+        <button onclick="showSection('mainMenu')" class="text-sm font-semibold text-sky-700 mb-4 flex items-center gap-1 hover:underline">
             ← กลับหน้าหลัก
         </button>
-        <h2 class="text-2xl font-bold text-sky-200 text-center mb-1">ลงทะเบียนผู้เข้าร่วมใหม่</h2>
-        <p class="text-xs text-center text-slate-400 mb-4">เพิ่มข้อมูลบุคคลลงในระบบฐานข้อมูล</p>
+        <h2 class="text-2xl font-bold text-slate-800 text-center mb-1">ตั้งค่าระบบ</h2>
+        <p class="text-xs text-center text-slate-500 mb-6">จัดการ GPS และ API (Admin)</p>
+
         <div class="space-y-4">
-            <div>
-                <label class="block text-sm text-slate-300 mb-1">รหัสประจำตัว / เลขบัตร</label>
-                <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none">
+            <!-- จัดการ API Endpoint -->
+            <div class="bg-sky-50/70 p-4 rounded-2xl border border-sky-200">
+                <label class="block text-sm font-bold text-sky-900 mb-1">Google Apps Script API Endpoint</label>
+                <input type="text" id="apiConfigInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-white border border-sky-300 rounded-xl p-2 text-xs text-slate-800 outline-none focus:ring-2 focus:ring-sky-300">
+                <p class="text-[11px] text-slate-500 mt-1">*URL สำหรับส่งข้อมูลตรงเข้า Google Sheets</p>
             </div>
-            <div>
-                <label class="block text-sm text-slate-300 mb-1">ชื่อ - สกุล</label>
-                <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none">
+
+            <!-- จัดการรัศมี GPS -->
+            <div class="bg-sky-50/70 p-4 rounded-2xl border border-sky-200">
+                <label class="block text-sm font-bold text-sky-900 mb-1">กำหนดพิกัดสถานที่จัดประชุม (GPS Fencing)</label>
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <input type="text" placeholder="Latitude (เช่น 13.5991)" class="bg-white border border-sky-300 rounded-xl p-2 text-xs outline-none">
+                    <input type="text" placeholder="Longitude (เช่น 100.5968)" class="bg-white border border-sky-300 rounded-xl p-2 text-xs outline-none">
+                </div>
+                <div class="flex items-center justify-between text-xs text-slate-600">
+                    <span>รัศมีการลงทะเบียนที่อนุญาต:</span>
+                    <span class="font-bold text-sky-700">100 เมตร รอบอาคาร</span>
+                </div>
             </div>
-            <div>
-                <label class="block text-sm text-slate-300 mb-1">สังกัด / หน่วยงาน</label>
-                <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none">
+
+            <!-- สรุปเกณฑ์สำหรับผู้บริหาร -->
+            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200 text-xs text-amber-900 space-y-1">
+                <p class="font-bold">เกณฑ์การประเมินเพื่ออนุมัติในครั้งต่อไป:</p>
+                <p>• สายเกิน 30 นาที (> 09:30 น.) = ติดสถานะมาสาย</p>
+                <p>• ออกก่อนเวลา (< 15:00 น.) = ไม่ผ่านเงื่อนไขรับวุฒิบัตร</p>
             </div>
-            <button onclick="alert('บันทึกข้อมูลเรียบร้อยแล้ว')" class="w-full py-3 bg-blue-600 hover:bg-blue-500 font-bold rounded-xl text-white shadow-lg">
-                บันทึกข้อมูลเข้าระบบ
+
+            <button onclick="alert('บันทึกการตั้งค่าระบบเรียบร้อยแล้ว')" class="w-full py-2.5 bg-sky-600 hover:bg-sky-700 font-bold rounded-xl text-white shadow-sm transition">
+                บันทึกการตั้งค่า (Admin)
             </button>
-        </div>
-    </div>
-
-    <!-- 4. หน้าย่อย: รายงานผู้บริหาร -->
-    <div id="adminSection" class="hidden w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
-        <button onclick="showSection('mainMenu')" class="text-sm text-sky-400 mb-4 flex items-center gap-1 hover:underline">
-            ← กลับหน้าหลัก
-        </button>
-        <h2 class="text-2xl font-bold text-sky-200 text-center mb-1">สรุปการเข้าร่วมสำหรับผู้บริหาร</h2>
-        <p class="text-xs text-center text-slate-400 mb-6">เกณฑ์การพิจารณาอนุมัติการเข้าร่วมประชุมในครั้งต่อไป</p>
-
-        <div class="grid grid-cols-3 gap-3 text-center mb-6">
-            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
-                <p class="text-xs text-slate-400">ตรงเวลา</p>
-                <p class="text-xl font-bold text-emerald-400">85%</p>
-            </div>
-            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
-                <p class="text-xs text-slate-400">สาย (>30น.)</p>
-                <p class="text-xl font-bold text-amber-400">10%</p>
-            </div>
-            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
-                <p class="text-xs text-slate-400">ออกก่อน 15:00</p>
-                <p class="text-xl font-bold text-rose-400">5%</p>
-            </div>
-        </div>
-
-        <div class="bg-slate-800/50 p-4 rounded-xl text-xs text-slate-300 space-y-2 mb-6">
-            <p class="font-bold text-sky-300">เกณฑ์การประเมินสิทธิ์:</p>
-            <p>• ผู้ที่มาสายเกิน 30 นาที หรือออกก่อนเวลา 15.00 น. จะไม่ได้รับใบรับรอง (e-Certificate)</p>
-            <p>• ระบบจัดเก็บประวัติเพื่อตัดสิทธิ์การขอรับงบประมาณสนับสนุนในการประชุมรอบถัดไป</p>
         </div>
     </div>
 
     <script>
-        // เปลี่ยนเป็น URL ของ Google Apps Script ของคุณ
-        const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+        // กำหนด URL ของ Google Apps Script ของคุณที่นี่
+        let SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
 
         let videoStream = null;
         let capturedPhoto = null;
@@ -215,9 +232,19 @@
             
             const photoStatus = document.getElementById('photoStatus');
             photoStatus.textContent = "ถ่ายภาพแล้ว ✓";
-            photoStatus.className = "text-xs text-emerald-400";
+            photoStatus.className = "text-xs font-semibold text-emerald-600";
         }
 
+        // บันทึกข้อมูลลงทะเบียน (ข้อมูลอย่างเดียว)
+        document.getElementById('regOnlyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const alertBox = document.getElementById('regAlert');
+            alertBox.className = "mt-4 p-3 rounded-xl text-center text-sm font-semibold bg-purple-100 text-purple-900 border border-purple-300 block";
+            alertBox.textContent = "บันทึกข้อมูลผู้เข้าร่วมงานสำเร็จแล้ว!";
+            document.getElementById('regOnlyForm').reset();
+        });
+
+        // สแกนลงเวลาเข้า-ออก
         document.getElementById('attendanceForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
@@ -241,13 +268,13 @@
                     body: JSON.stringify(payload)
                 });
 
-                alertBox.className = "mt-4 p-3 rounded-xl text-center text-sm font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800 block";
+                alertBox.className = "mt-3 p-3 rounded-xl text-center text-sm font-semibold bg-emerald-100 text-emerald-900 border border-emerald-300 block";
                 alertBox.textContent = "บันทึกข้อมูลการลงเวลาสำเร็จ!";
                 document.getElementById('attendanceForm').reset();
                 document.getElementById('photoStatus').textContent = "ยังไม่ได้ถ่ายภาพ";
-                document.getElementById('photoStatus').className = "text-xs text-amber-400";
+                document.getElementById('photoStatus').className = "text-xs font-medium text-amber-600";
             } catch (err) {
-                alertBox.className = "mt-4 p-3 rounded-xl text-center text-sm font-semibold bg-rose-950/80 text-rose-300 border border-rose-800 block";
+                alertBox.className = "mt-3 p-3 rounded-xl text-center text-sm font-semibold bg-rose-100 text-rose-900 border border-rose-300 block";
                 alertBox.textContent = "เกิดข้อผิดพลาดในการบันทึก";
             } finally {
                 submitBtn.disabled = false;
