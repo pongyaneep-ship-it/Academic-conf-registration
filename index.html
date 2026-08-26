@@ -3,76 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบบันทึกเวลาเข้างาน (Face-scan-test)</title>
+    <title>ระบบบันทึกเวลาเข้างานและประชุมวิชาการ</title>
     <!-- นำเข้า Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- นำเข้า Google Font 'Prompt' (ทางการและทันสมัย) -->
+    <!-- นำเข้า Google Font 'Sarabun' (ฟอนต์สารบรรณแบบมีหัว เป็นทางการ) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ตั้งค่าฟอนต์มาตรฐาน */
-        body { font-family: 'Prompt', sans-serif; }
-        /* เอฟเฟกต์การเปลี่ยนสีแบบราบรื่น (Transition) */
-        .card-interaction { transition: all 0.3s ease; }
-        .card-interaction:hover { transform: scale(1.02); }
+        body { font-family: 'Sarabun', sans-serif; }
+        .card-hover { transition: all 0.25s ease; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.25); }
     </style>
 </head>
-<!-- กำหนดพื้นหลังโทนสีฟ้าเข้มแบบไล่เฉด -->
-<body class="bg-gradient-to-br from-gray-950 via-slate-900 to-indigo-950 text-white min-h-screen">
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-sky-950 text-slate-100 min-h-screen flex items-center justify-center p-4">
 
-    <div class="flex flex-col items-center justify-center p-6 min-h-screen">
-        
-        <!-- ส่วนหัว (Header) -->
-        <header class="text-center mb-12">
-            <h1 class="text-4xl font-semibold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-300">
+    <!-- 1. เมนูหลัก (Main Dashboard) -->
+    <div id="mainMenu" class="w-full max-w-xl mx-auto py-6">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-blue-200">
                 ระบบบันทึกเวลาเข้างาน
             </h1>
-            <p class="text-slate-400 mt-2 text-lg">Face Recognition & GPS Attendance Management</p>
+            <p class="text-slate-400 mt-1 text-base">Face Recognition & GPS Attendance Management</p>
         </header>
 
-        <!-- กลุ่มเมนูหลัก 3 รายการ (Cards Container) -->
-        <main class="space-y-6 w-full max-w-3xl">
-
-            <!-- รายการที่ 1: ลงทะเบียนพนักงาน -->
-            <a href="#" class="card-interaction flex items-center bg-slate-900/60 border border-slate-800 p-6 rounded-2xl shadow-xl hover:bg-slate-800/80 hover:border-cyan-700">
-                <div class="flex-shrink-0 bg-indigo-600 p-4 rounded-xl shadow-lg mr-6">
-                    <!-- ไอคอนโปรไฟล์พนักงาน -->
-                    <svg class="w-10 h-10 text-cyan-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
+        <div class="space-y-4">
+            <!-- เมนูที่ 1: ลงทะเบียน -->
+            <div onclick="showSection('registerSection')" class="card-hover cursor-pointer flex items-center bg-slate-900/80 border border-slate-800 hover:border-sky-500/50 p-5 rounded-2xl shadow-lg">
+                <div class="flex-shrink-0 bg-blue-600 p-3.5 rounded-xl shadow-md mr-5 text-white">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                 </div>
                 <div class="flex-grow">
-                    <h2 class="text-2xl font-medium text-cyan-200">ลงทะเบียนพนักงาน</h2>
-                    <p class="text-slate-400">บันทึกข้อมูลใบหน้าใหม่ลงในฐานข้อมูล</p>
+                    <h2 class="text-xl font-bold text-sky-200">ลงทะเบียนผู้เข้าร่วม</h2>
+                    <p class="text-sm text-slate-400">บันทึกข้อมูลและภาพถ่ายใบหน้าใหม่</p>
                 </div>
-                <div class="flex-shrink-0 text-gray-600">
-                    <!-- ไอคอนลูกศร -->
+                <div class="text-slate-500">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </div>
-            </a>
+            </div>
 
-            <!-- รายการที่ 2: สแกนเข้างาน -->
-            <a href="#" class="card-interaction flex items-center bg-slate-900/60 border border-slate-800 p-6 rounded-2xl shadow-xl hover:bg-slate-800/80 hover:border-green-700">
-                <div class="flex-shrink-0 bg-green-600 p-4 rounded-xl shadow-lg mr-6">
-                    <!-- ไอคอนกล้อง/สแกน -->
-                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
+            <!-- เมนูที่ 2: สแกนเข้างาน -->
+            <div onclick="showSection('scanSection'); startCamera();" class="card-hover cursor-pointer flex items-center bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 p-5 rounded-2xl shadow-lg">
+                <div class="flex-shrink-0 bg-emerald-600 p-3.5 rounded-xl shadow-md mr-5 text-white">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 </div>
                 <div class="flex-grow">
-                    <h2 class="text-2xl font-medium text-green-300">สแกนเข้างาน</h2>
-                    <p class="text-slate-400">ยืนยันตัวตนด้วยใบหน้า พร้อมบันทึกพิกัด GPS</p>
+                    <h2 class="text-xl font-bold text-emerald-300">สแกนเข้า-ออกงาน</h2>
+                    <p class="text-sm text-slate-400">ยืนยันตัวตนด้วยใบหน้า พร้อมบันทึกพิกัด GPS</p>
                 </div>
-                <div class="flex-shrink-0 text-gray-600">
+                <div class="text-slate-500">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </div>
-            </a>
+            </div>
 
-            <!-- รายการที่ 3: ตั้งค่าระบบ -->
-            <a href="#" class="card-interaction flex items-center bg-slate-900/60 border border-slate-800 p-6 rounded-2xl shadow-xl hover:bg-slate-800/80 hover:border-slate-600">
-                <div class="flex-shrink-0 bg-slate-600 p-4 rounded-xl shadow-lg mr-6">
-                    <!-- ไอคอนฟันเฟือง -->
-                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width
+            <!-- เมนูที่ 3: ตั้งค่าระบบและรายงาน -->
+            <div onclick="showSection('adminSection')" class="card-hover cursor-pointer flex items-center bg-slate-900/80 border border-slate-800 hover:border-slate-500/50 p-5 rounded-2xl shadow-lg">
+                <div class="flex-shrink-0 bg-slate-700 p-3.5 rounded-xl shadow-md mr-5 text-white">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                </div>
+                <div class="flex-grow">
+                    <h2 class="text-xl font-bold text-slate-200">ตั้งค่าระบบ / รายงานผล</h2>
+                    <p class="text-sm text-slate-400">ตรวจสอบสถิติผู้มาสาย และผู้ออกก่อนเวลา</p>
+                </div>
+                <div class="text-slate-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. หน้าย่อย: สแกนเข้า-ออกงาน -->
+    <div id="scanSection" class="hidden w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
+        <button onclick="showSection('mainMenu'); stopCamera();" class="text-sm text-sky-400 mb-4 flex items-center gap-1 hover:underline">
+            ← กลับหน้าหลัก
+        </button>
+        <h2 class="text-2xl font-bold text-sky-200 text-center mb-1">สแกนลงเวลา</h2>
+        <p class="text-xs text-center text-slate-400 mb-4">บันทึกเวลาพร้อมตรวจสอบใบหน้าและพิกัด</p>
+
+        <form id="attendanceForm" class="space-y-4">
+            <div>
+                <label class="block text-sm text-slate-300 mb-1">รหัสผู้เข้าร่วม / อีเมล</label>
+                <input type="text" id="userId" required placeholder="เช่น EMP-001 หรือ email" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-sky-500">
+            </div>
+
+            <div>
+                <label class="block text-sm text-slate-300 mb-1">ชื่อ - นามสกุล</label>
+                <input type="text" id="userName" required placeholder="นายสมชาย ใจดี" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-sky-500">
+            </div>
+
+            <div>
+                <label class="block text-sm text-slate-300 mb-1">ประเภทการลงเวลา</label>
+                <select id="recordType" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-sky-500">
+                    <option value="Check-in">Check-in (เข้าประชุมเช้า)</option>
+                    <option value="Check-out">Check-out (ออกจากห้องประชุม)</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm text-slate-300 mb-1">กล้องบันทึกใบหน้า</label>
+                <div class="relative rounded-xl overflow-hidden bg-black aspect-video flex items-center justify-center">
+                    <video id="video" class="w-full h-full object-cover" autoplay playsinline></video>
+                    <canvas id="canvas" class="hidden"></canvas>
+                </div>
+                <div class="flex items-center justify-between mt-2">
+                    <button type="button" onclick="takeSnapshot()" class="px-3 py-1.5 bg-sky-600 hover:bg-sky-500 text-xs rounded-lg text-white font-medium">กดถ่ายภาพ</button>
+                    <span id="photoStatus" class="text-xs text-amber-400">ยังไม่ได้ถ่ายภาพ</span>
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 font-bold rounded-xl text-white shadow-lg transition">
+                ยืนยันการบันทึกเวลา
+            </button>
+        </form>
+        <div id="statusAlert" class="hidden mt-4 p-3 rounded-xl text-center text-sm font-semibold"></div>
+    </div>
+
+    <!-- 3. หน้าย่อย: ลงทะเบียนพนักงานใหม่ -->
+    <div id="registerSection" class="hidden w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
+        <button onclick="showSection('mainMenu')" class="text-sm text-sky-400 mb-4 flex items-center gap-1 hover:underline">
+            ← กลับหน้าหลัก
+        </button>
+        <h2 class="text-2xl font-bold text-sky-200 text-center mb-1">ลงทะเบียนผู้เข้าร่วมใหม่</h2>
+        <p class="text-xs text-center text-slate-400 mb-4">เพิ่มข้อมูลบุคคลลงในระบบฐานข้อมูล</p>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm text-slate-300 mb-1">รหัสประจำตัว / เลขบัตร</label>
+                <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none">
+            </div>
+            <div>
+                <label class="block text-sm text-slate-300 mb-1">ชื่อ - สกุล</label>
+                <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none">
+            </div>
+            <div>
+                <label class="block text-sm text-slate-300 mb-1">สังกัด / หน่วยงาน</label>
+                <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 text-white outline-none">
+            </div>
+            <button onclick="alert('บันทึกข้อมูลเรียบร้อยแล้ว')" class="w-full py-3 bg-blue-600 hover:bg-blue-500 font-bold rounded-xl text-white shadow-lg">
+                บันทึกข้อมูลเข้าระบบ
+            </button>
+        </div>
+    </div>
+
+    <!-- 4. หน้าย่อย: รายงานผู้บริหาร -->
+    <div id="adminSection" class="hidden w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl">
+        <button onclick="showSection('mainMenu')" class="text-sm text-sky-400 mb-4 flex items-center gap-1 hover:underline">
+            ← กลับหน้าหลัก
+        </button>
+        <h2 class="text-2xl font-bold text-sky-200 text-center mb-1">สรุปการเข้าร่วมสำหรับผู้บริหาร</h2>
+        <p class="text-xs text-center text-slate-400 mb-6">เกณฑ์การพิจารณาอนุมัติการเข้าร่วมประชุมในครั้งต่อไป</p>
+
+        <div class="grid grid-cols-3 gap-3 text-center mb-6">
+            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                <p class="text-xs text-slate-400">ตรงเวลา</p>
+                <p class="text-xl font-bold text-emerald-400">85%</p>
+            </div>
+            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                <p class="text-xs text-slate-400">สาย (>30น.)</p>
+                <p class="text-xl font-bold text-amber-400">10%</p>
+            </div>
+            <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700">
+                <p class="text-xs text-slate-400">ออกก่อน 15:00</p>
+                <p class="text-xl font-bold text-rose-400">5%</p>
+            </div>
+        </div>
+
+        <div class="bg-slate-800/50 p-4 rounded-xl text-xs text-slate-300 space-y-2 mb-6">
+            <p class="font-bold text-sky-300">เกณฑ์การประเมินสิทธิ์:</p>
+            <p>• ผู้ที่มาสายเกิน 30 นาที หรือออกก่อนเวลา 15.00 น. จะไม่ได้รับใบรับรอง (e-Certificate)</p>
+            <p>• ระบบจัดเก็บประวัติเพื่อตัดสิทธิ์การขอรับงบประมาณสนับสนุนในการประชุมรอบถัดไป</p>
+        </div>
+    </div>
+
+    <script>
+        // เปลี่ยนเป็น URL ของ Google Apps Script ของคุณ
+        const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+        let videoStream = null;
+        let capturedPhoto = null;
+
+        function showSection(sectionId) {
+            ['mainMenu', 'scanSection', 'registerSection', 'adminSection'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        async function startCamera() {
+            try {
+                videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                document.getElementById('video').srcObject = videoStream;
+            } catch (err) {
+                console.warn("ไม่สามารถเปิดกล้องได้:", err);
+            }
+        }
+
+        function stopCamera() {
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+                videoStream = null;
+            }
+        }
+
+        function takeSnapshot() {
+            const video = document.getElementById('video');
+            const canvas = document.getElementById('canvas');
+            canvas.width = video.videoWidth || 320;
+            canvas.height = video.videoHeight || 240;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            capturedPhoto = canvas.toDataURL('image/jpeg', 0.5);
+            
+            const photoStatus = document.getElementById('photoStatus');
+            photoStatus.textContent = "ถ่ายภาพแล้ว ✓";
+            photoStatus.className = "text-xs text-emerald-400";
+        }
+
+        document.getElementById('attendanceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            const alertBox = document.getElementById('statusAlert');
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "กำลังบันทึกข้อมูล...";
+
+            const payload = {
+                userId: document.getElementById('userId').value,
+                name: document.getElementById('userName').value,
+                type: document.getElementById('recordType').value,
+                photo: capturedPhoto
+            };
+
+            try {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                alertBox.className = "mt-4 p-3 rounded-xl text-center text-sm font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800 block";
+                alertBox.textContent = "บันทึกข้อมูลการลงเวลาสำเร็จ!";
+                document.getElementById('attendanceForm').reset();
+                document.getElementById('photoStatus').textContent = "ยังไม่ได้ถ่ายภาพ";
+                document.getElementById('photoStatus').className = "text-xs text-amber-400";
+            } catch (err) {
+                alertBox.className = "mt-4 p-3 rounded-xl text-center text-sm font-semibold bg-rose-950/80 text-rose-300 border border-rose-800 block";
+                alertBox.textContent = "เกิดข้อผิดพลาดในการบันทึก";
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "ยืนยันการบันทึกเวลา";
+            }
+        });
+    </script>
+</body>
+</html>
