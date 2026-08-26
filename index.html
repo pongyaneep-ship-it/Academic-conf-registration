@@ -241,26 +241,43 @@
             }
         }
 
-        // ฟังก์ชันตรวจจับพิกัด GPS
+        // ฟังก์ชันตรวจจับพิกัด GPS แบบยืดหยุ่นสูง
         function getGPSLocation() {
             const gpsLabel = document.getElementById('displayGPS');
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        userGPS.lat = position.coords.latitude.toFixed(5);
-                        userGPS.lng = position.coords.longitude.toFixed(5);
-                        gpsLabel.textContent = `${userGPS.lat}, ${userGPS.lng}`;
-                        gpsLabel.className = "font-bold text-emerald-700";
-                    },
-                    (error) => {
-                        gpsLabel.textContent = "ไม่สามารถระบุพิกัดได้";
-                        gpsLabel.className = "font-bold text-rose-600";
-                    },
-                    { enableHighAccuracy: true, timeout: 10000 }
-                );
-            } else {
+            if (!navigator.geolocation) {
                 gpsLabel.textContent = "อุปกรณ์ไม่รองรับ GPS";
+                gpsLabel.className = "font-bold text-rose-600";
+                return;
             }
+
+            gpsLabel.textContent = "กำลังค้นหาพิกัด...";
+            gpsLabel.className = "font-bold text-amber-600";
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userGPS.lat = position.coords.latitude.toFixed(5);
+                    userGPS.lng = position.coords.longitude.toFixed(5);
+                    gpsLabel.textContent = `${userGPS.lat}, ${userGPS.lng}`;
+                    gpsLabel.className = "font-bold text-emerald-700";
+                },
+                (error) => {
+                    // หาก Timeout หรือติดปัญหา ให้ลองดึงแบบเครือข่ายปกติทันที
+                    navigator.geolocation.getCurrentPosition(
+                        (fallbackPos) => {
+                            userGPS.lat = fallbackPos.coords.latitude.toFixed(5);
+                            userGPS.lng = fallbackPos.coords.longitude.toFixed(5);
+                            gpsLabel.textContent = `${userGPS.lat}, ${userGPS.lng}`;
+                            gpsLabel.className = "font-bold text-emerald-700";
+                        },
+                        (finalErr) => {
+                            gpsLabel.textContent = "ไม่สามารถระบุพิกัดได้";
+                            gpsLabel.className = "font-bold text-rose-600";
+                        },
+                        { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }
+                    );
+                },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+            );
         }
 
         function takeSnapshot() {
