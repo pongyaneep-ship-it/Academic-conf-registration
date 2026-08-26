@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบลงทะเบียนประชุมวิชาการ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+
+  <div class="bg-white p-6 rounded-2xl shadow-xl max-w-md w-full border border-slate-200">
+    <h2 class="text-2xl font-bold text-center text-slate-800 mb-1">ลงทะเบียนเข้าร่วมประชุม</h2>
+    <p class="text-center text-sm text-slate-500 mb-6">บันทึกเวลาพร้อมระบบยืนยันตัวตน</p>
+
+    <form id="attendanceForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-700">รหัสผู้เข้าร่วม / อีเมล</label>
+        <input type="text" id="userId" required class="mt-1 w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-700">ชื่อ - นามสกุล</label>
+        <input type="text" id="name" required class="mt-1 w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-700">ประเภทการบันทึก</label>
+        <select id="type" class="mt-1 w-full p-2.5 border rounded-lg bg-white focus:ring-2 focus:ring-blue-500 outline-none">
+          <option value="Check-in">Check-in (เข้าห้องประชุม)</option>
+          <option value="Check-out">Check-out (ออกจากห้องประชุม)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-700">ถ่ายภาพยืนยันตัวตนหน้างาน</label>
+        <div class="mt-2 text-center">
+          <video id="video" width="100%" class="rounded-lg bg-black aspect-video object-cover" autoplay playsinline></video>
+          <canvas id="canvas" class="hidden"></canvas>
+          <button type="button" id="snapBtn" class="mt-2 px-4 py-1.5 bg-slate-700 text-white text-xs rounded-md">ถ่ายรูป</button>
+          <p id="snapStatus" class="text-xs text-amber-600 mt-1">กรุณากดถ่ายภาพก่อนกดลงทะเบียน</p>
+        </div>
+      </div>
+
+      <button type="submit" id="submitBtn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-200">
+        ยืนยันการบันทึกเวลา
+      </button>
+    </form>
+
+    <div id="resultModal" class="hidden mt-4 p-4 rounded-lg text-center text-sm font-semibold"></div>
+  </div>
+
+  <script>
+    // แทนที่ด้วย Web App URL ที่ได้จาก Google Apps Script
+    const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    let photoData = null;
+
+    // เปิดใช้งานกล้อง
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+      .then(stream => { video.srcObject = stream; })
+      .catch(err => { console.warn("Camera not accessible:", err); });
+
+    document.getElementById('snapBtn').addEventListener('click', () => {
+      canvas.width = video.videoWidth || 320;
+      canvas.height = video.videoHeight || 240;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      photoData = canvas.toDataURL('image/jpeg', 0.5);
+      document.getElementById('snapStatus').textContent = "ถ่ายภาพสำเร็จแล้ว ✅";
+      document.getElementById('snapStatus').className = "text-xs text-green-600 mt-1";
+    });
+
+    document.getElementById('attendanceForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+      const resultModal = document.getElementById('resultModal');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "กำลังบันทึกข้อมูล...";
+
+      const payload = {
+        userId: document.getElementById('userId').value,
+        name: document.getElementById('name').value,
+        type: document.getElementById('type').value,
+        photo: photoData
+      };
+
+      try {
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        resultModal.className = "mt-4 p-4 rounded-lg text-center text-sm font-semibold bg-green-100 text-green-800 block";
+        resultModal.textContent = "บันทึกข้อมูลเรียบร้อยแล้ว!";
+        document.getElementById('attendanceForm').reset();
+      } catch (err) {
+        resultModal.className = "mt-4 p-4 rounded-lg text-center text-sm font-semibold bg-red-100 text-red-800 block";
+        resultModal.textContent = "เกิดข้อผิดพลาดในการส่งข้อมูล";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "ยืนยันการบันทึกเวลา";
+      }
+    });
+  </script>
+</body>
+</html>
